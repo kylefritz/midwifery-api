@@ -3,5 +3,6 @@ source "https://rubygems.org"
 
 ruby '2.4.0'
 
-# gem "rails"
+gem 'puma'
 gem 'sinatra'
+gem 'foreman'
