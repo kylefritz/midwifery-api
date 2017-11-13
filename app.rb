@@ -15,8 +15,8 @@ before do
 end
 
 get '/' do
-  caught_babies = $redis.get('caught')
-  puts "Caught Babies: #{caught_babies}"
+  caught_babies = ($redis.get('caught') || 0).to_i
+  puts "KJ has caught #{caught_babies} babies!"
   {babies: caught_babies}.to_json
   # erb :caught_babies, locals: {caught_babies: caught_babies}
 end
