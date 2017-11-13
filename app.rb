@@ -6,7 +6,7 @@ require 'json'
 $redis = Redis.new(url: ENV["REDIS_URL"])
 
 set :allow_origin, "*"
-set :allow_methods, "GET,HEAD,POST"
+set :allow_methods, "GET,HEAD,POST,PATCH,DELETE"
 set :allow_headers, "content-type,if-modified-since"
 set :expose_headers, "location,link"
 
@@ -19,4 +19,16 @@ get '/' do
   puts "KJ has caught #{caught_babies} babies!"
   {babies: caught_babies}.to_json
   # erb :caught_babies, locals: {caught_babies: caught_babies}
+end
+
+post '/' do
+  caught_babies = ($redis.incr('caught') || 0).to_i
+  puts "KJ has caught #{caught_babies} babies!"
+  {babies: caught_babies}.to_json
+end
+
+delete '/' do
+  caught_babies = ($redis.decr('caught') || 0).to_i
+  puts "KJ has caught #{caught_babies} babies!"
+  {babies: caught_babies}.to_json
 end
