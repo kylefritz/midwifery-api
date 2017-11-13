@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/cors'
 require 'redis'
 require 'json'
 
@@ -9,14 +10,13 @@ set :allow_methods, "GET,HEAD,POST"
 set :allow_headers, "content-type,if-modified-since"
 set :expose_headers, "location,link"
 
-
 before do
   content_type :json
 end
 
- get '/' do
-   caught_babies = $redis.get('caught')
-   puts "Caught Babies: #{caught_babies}"
-   {babies: caught_babies}.to_json
-   # erb :caught_babies, locals: {caught_babies: caught_babies}
- end
+get '/' do
+  caught_babies = $redis.get('caught')
+  puts "Caught Babies: #{caught_babies}"
+  {babies: caught_babies}.to_json
+  # erb :caught_babies, locals: {caught_babies: caught_babies}
+end
