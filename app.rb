@@ -37,7 +37,6 @@ end
 post '/emoji' do
   from = params['From']
   body = params['Body']
-    .gsub(/[A-Za-z0-9]/, '')
   hash = {
     'from' => from,
     'body' => body,
