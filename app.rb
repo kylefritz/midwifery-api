@@ -54,3 +54,14 @@ post '/emoji' do
   'ok'
 end
 
+get '/emoji' do
+  parents = $redis.lrange('parents', 0, -1)
+    .map { |message| JSON.parse(message) }
+  fans = $redis.lrange('fans', 0, -1)
+    .map { |message| JSON.parse(message) }
+  hash = {
+    'parents' => parents,
+    'fans' => fans,
+  }
+  hash.to_json
+end
