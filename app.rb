@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/cors'
 require 'redis'
 require 'json'
+require './env'
 
 $redis = Redis.new(url: ENV["REDIS_URL"])
 
@@ -36,22 +37,17 @@ end
 post '/emoji' do
   from = params['From']
   body = params['Body']
-    .gsub!(/[A-Za-z0-9]/, '')
+    .gsub(/[A-Za-z0-9]/, '')
   hash = {
     'from' => from,
     'body' => body,
     'time' => Time.now,
   }
   json = hash.to_json
-  parents = [
-    'test_parent',
-    '+14109139709',
-    '+14439637252',
-    '+16787330079'
-  ]
+  parents = ENV['parents'].split(',')
   list = parents.include?(from) ? 'parents' : 'fans'
   $redis.rpush(list, json)
-  'ok'
+  status 200
 end
 
 get '/emoji' do
