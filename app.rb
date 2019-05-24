@@ -2,7 +2,6 @@ require 'sinatra'
 require 'sinatra/cors'
 require 'redis'
 require 'json'
-require './env'
 
 $redis = Redis.new(url: ENV["REDIS_URL"])
 
