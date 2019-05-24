@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/cors'
 require 'redis'
 require 'json'
+require './env'
 
 $redis = Redis.new(url: ENV["REDIS_URL"])
 
@@ -31,4 +32,31 @@ delete '/' do
   caught_babies = ($redis.decr('caught') || 0).to_i
   puts "KJ has caught #{caught_babies} babies!"
   {babies: caught_babies}.to_json
+end
+
+post '/emoji' do
+  from = params['From']
+  body = params['Body']
+  hash = {
+    'from' => from,
+    'body' => body,
+    'time' => Time.now,
+  }
+  json = hash.to_json
+  parents = ENV['parents'].split(',')
+  list = parents.include?(from) ? 'parents' : 'fans'
+  $redis.rpush(list, json)
+  status 200
+end
+
+get '/emoji' do
+  parents = $redis.lrange('parents', 0, -1)
+    .map { |message| JSON.parse(message) }
+  fans = $redis.lrange('fans', 0, -1)
+    .map { |message| JSON.parse(message) }
+  hash = {
+    'parents' => parents,
+    'fans' => fans,
+  }
+  hash.to_json
 end

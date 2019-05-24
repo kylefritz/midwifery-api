@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/ruby
 
 ### Ruby ###
@@ -54,3 +53,6 @@ build-iPhoneSimulator/
 .rvmrc
 
 # End of https://www.gitignore.io/api/ruby
+
+env.rb
+*.rdb
