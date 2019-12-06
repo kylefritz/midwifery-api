@@ -5,7 +5,7 @@ GEM
       thor (~> 0.19.1)
     json (2.0.2)
     mustermann (1.0.1)
-    puma (3.10.0)
+    puma (3.12.2)
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
