@@ -6,7 +6,7 @@ GEM
     json (2.0.2)
     mustermann (1.0.1)
     puma (3.10.0)
-    rack (2.0.3)
+    rack (2.0.8)
     rack-protection (2.0.0)
       rack
     redis (4.0.1)
